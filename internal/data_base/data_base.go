@@ -11,11 +11,11 @@ type Api interface {
 	GetKeys() string
 }
 
-type dataBase struct {
+type DataBase struct {
 	storage []string
 }
 
-func New() dataBase {
+func New() DataBase {
 	bytes_keys, err := os.ReadFile("/home/lprm/my_project/go/github/dumb_base/keys.txt")
 	if err != nil {
 		logrus.Fatal("Not found keys.txt")
@@ -41,12 +41,12 @@ func New() dataBase {
 	if len(storage) == 0 {
 		logrus.Fatal("Keys not download")
 	}
-	return dataBase{storage: storage}
+	return DataBase{storage: storage}
 
 }
 
 // impl Api interface
-func (db *dataBase) GetKeys() string {
+func (db *DataBase) GetKeys() string {
 
 	return strings.Join(db.storage, "")
 }
