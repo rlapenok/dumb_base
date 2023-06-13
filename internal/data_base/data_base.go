@@ -7,11 +7,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type DataBase struct {
+type Api interface {
+	GetKeys() string
+}
+
+type dataBase struct {
 	storage []string
 }
 
-func New() DataBase {
+func New() dataBase {
 	bytes_keys, err := os.ReadFile("/home/lprm/my_project/go/github/dumb_base/keys.txt")
 	if err != nil {
 		logrus.Fatal("Not found keys.txt")
@@ -33,9 +37,16 @@ func New() DataBase {
 
 		}(x)
 	}
+
 	if len(storage) == 0 {
 		logrus.Fatal("Keys not download")
 	}
-	return DataBase{storage: storage}
+	return dataBase{storage: storage}
 
+}
+
+// impl Api interface
+func (db *dataBase) GetKeys() string {
+
+	return strings.Join(db.storage, "")
 }
