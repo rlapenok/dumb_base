@@ -1,14 +1,16 @@
 package database
 
 import (
-	"os"
 	"strings"
+	"sync"
 
+	helperfn "github.com/rlapenok/dumb_base/internal/helper_fn"
 	"github.com/sirupsen/logrus"
 )
 
 type Api interface {
-	GetKeys() string
+	GetKeys(mutex *sync.Mutex) string
+	UpdateKeys(string, mutex *sync.Mutex)
 }
 
 type DataBase struct {
@@ -16,37 +18,23 @@ type DataBase struct {
 }
 
 func New() DataBase {
-	bytes_keys, err := os.ReadFile("/home/lprm/my_project/go/github/dumb_base/keys.txt")
-	if err != nil {
-		logrus.Fatal("Not found keys.txt")
-	}
-	//From slice bytes to one string
-	keys := string(bytes_keys)
-
-	//split string in "\n"
-	slice_string := strings.Split(keys, "\n")
-	var storage []string
-	for _, row_key := range slice_string {
-		x := strings.TrimSpace(row_key)
-		func(x string) {
-			if len(x) != 64 {
-				logrus.Warn("Key not supprted")
-			} else {
-				storage = append(storage, x)
-			}
-
-		}(x)
-	}
-
-	if len(storage) == 0 {
-		logrus.Fatal("Keys not download")
-	}
+	ptr := helperfn.OpenFile()
+	storage := helperfn.ReadFile(ptr)
 	return DataBase{storage: storage}
 
 }
 
 // impl Api interface
-func (db *DataBase) GetKeys() string {
+func (db *DataBase) GetKeys(mutex *sync.Mutex) string {
+	defer mutex.Unlock()
+	return strings.Join(db.storage, " ")
+}
+func (db *DataBase) UpdateKeys(key string, mutex *sync.Mutex) {
+	defer mutex.Unlock()
+	defer logrus.Info("Update keys - success")
+	new_key := strings.TrimSpace(key)
+	db.storage = append(db.storage, new_key)
+	ptr := helperfn.OpenFile()
+	helperfn.UpdateFile(ptr, new_key, mutex)
 
-	return strings.Join(db.storage, "")
 }

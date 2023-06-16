@@ -51,7 +51,7 @@ func (c *apiClient) GetKeys(ctx context.Context, in *Req, opts ...grpc.CallOptio
 // for forward compatibility
 type ApiServer interface {
 	GetKeys(context.Context, *Req) (*Resp, error)
-	mustEmbedUnimplementedApiServer()
+	//mustEmbedUnimplementedApiServer()
 }
 
 // UnimplementedApiServer must be embedded to have forward compatible implementations.

@@ -2,38 +2,26 @@ package server
 
 import (
 	"context"
-	"log"
-	"net"
+	"sync"
 
 	api "github.com/rlapenok/dumb_base/grpc_generate/proto"
 	database "github.com/rlapenok/dumb_base/internal/data_base"
-	"google.golang.org/grpc"
 )
 
 type MyServer struct {
-	db database.DataBase
+	db    database.DataBase
+	ctx   context.Context
+	mutex sync.Mutex
 }
 
-// mustEmbedUnimplementedApiServer implements api.ApiServer.
-func (server *MyServer) mustEmbedUnimplementedApiServer() {
-	panic("unimplemented")
-}
+func NewMyServer() MyServer {
 
-func NewMyServer() {
-	lis, err := net.Listen("tcp", ":8080")
-	if err != nil {
-		log.Fatal("failed to listen: %v", err)
-	}
-	grpc_server := grpc.NewServer()
-	db := database.New()
-	my_server := MyServer{db: db}
-	api.RegisterApiServer(grpc_server, my_server)
-	grpc_server.Serve(lis)
+	return MyServer{db: database.New(), ctx: context.Background(), mutex: sync.Mutex{}}
 }
 
 func (server *MyServer) GetKeys(ctx context.Context, req *api.Req) (*api.Resp, error) {
-
-	keys := server.db.GetKeys()
+	server.mutex.Lock()
+	keys := server.db.GetKeys(&server.mutex)
 	resp := api.Resp{Keys: keys}
 	return &resp, nil
 }
