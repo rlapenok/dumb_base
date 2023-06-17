@@ -1,40 +1,53 @@
 package database
 
 import (
+	"errors"
 	"strings"
 	"sync"
 
 	helperfn "github.com/rlapenok/dumb_base/internal/helper_fn"
-	"github.com/sirupsen/logrus"
 )
 
 type Api interface {
-	GetKeys(mutex *sync.Mutex) string
-	UpdateKeys(string, mutex *sync.Mutex)
+	GetKeys()
+	UpdateKeys(string, chan error)
 }
 
 type DataBase struct {
 	storage []string
+	mutex   sync.Mutex
 }
 
 func New() DataBase {
+
 	ptr := helperfn.OpenFile()
 	storage := helperfn.ReadFile(ptr)
-	return DataBase{storage: storage}
+	return DataBase{storage: storage, mutex: sync.Mutex{}}
 
 }
 
 // impl Api interface
-func (db *DataBase) GetKeys(mutex *sync.Mutex) string {
-	defer mutex.Unlock()
-	return strings.Join(db.storage, " ")
+func (db *DataBase) GetKeys(channel chan string) {
+	defer db.mutex.Unlock()
+	db.mutex.Lock()
+	keys := strings.Join(db.storage, " ")
+	channel <- keys
 }
-func (db *DataBase) UpdateKeys(key string, mutex *sync.Mutex) {
-	defer mutex.Unlock()
-	defer logrus.Info("Update keys - success")
+func (db *DataBase) UpdateKeys(key string, channel chan error) {
+	defer db.mutex.Unlock()
+	defer close(channel)
+	db.mutex.Lock()
 	new_key := strings.TrimSpace(key)
-	db.storage = append(db.storage, new_key)
-	ptr := helperfn.OpenFile()
-	helperfn.UpdateFile(ptr, new_key, mutex)
+	if len(new_key) != 64 {
+		err := errors.New(":Key not supported")
+		channel <- err
+	} else {
+		db.storage = append(db.storage, new_key)
+		ptr := helperfn.OpenFile()
+		if result := helperfn.UpdateFile(ptr, new_key); result != nil {
+			channel <- result
+		}
+		channel <- nil
+	}
 
 }

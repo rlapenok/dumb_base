@@ -4,7 +4,7 @@
 // 	protoc        v4.23.3
 // source: proto/api.proto
 
-package api
+package grpc_generate
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -20,6 +20,146 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type RespUpdateKey_Result int32
+
+const (
+	RespUpdateKey_OK  RespUpdateKey_Result = 0
+	RespUpdateKey_ERR RespUpdateKey_Result = 1
+)
+
+// Enum value maps for RespUpdateKey_Result.
+var (
+	RespUpdateKey_Result_name = map[int32]string{
+		0: "OK",
+		1: "ERR",
+	}
+	RespUpdateKey_Result_value = map[string]int32{
+		"OK":  0,
+		"ERR": 1,
+	}
+)
+
+func (x RespUpdateKey_Result) Enum() *RespUpdateKey_Result {
+	p := new(RespUpdateKey_Result)
+	*p = x
+	return p
+}
+
+func (x RespUpdateKey_Result) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RespUpdateKey_Result) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_api_proto_enumTypes[0].Descriptor()
+}
+
+func (RespUpdateKey_Result) Type() protoreflect.EnumType {
+	return &file_proto_api_proto_enumTypes[0]
+}
+
+func (x RespUpdateKey_Result) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RespUpdateKey_Result.Descriptor instead.
+func (RespUpdateKey_Result) EnumDescriptor() ([]byte, []int) {
+	return file_proto_api_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type RespUpdateKey struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Result RespUpdateKey_Result `protobuf:"varint,1,opt,name=result,proto3,enum=api.RespUpdateKey_Result" json:"result,omitempty"`
+}
+
+func (x *RespUpdateKey) Reset() {
+	*x = RespUpdateKey{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_api_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespUpdateKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespUpdateKey) ProtoMessage() {}
+
+func (x *RespUpdateKey) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_api_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespUpdateKey.ProtoReflect.Descriptor instead.
+func (*RespUpdateKey) Descriptor() ([]byte, []int) {
+	return file_proto_api_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *RespUpdateKey) GetResult() RespUpdateKey_Result {
+	if x != nil {
+		return x.Result
+	}
+	return RespUpdateKey_OK
+}
+
+type NewKey struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+}
+
+func (x *NewKey) Reset() {
+	*x = NewKey{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_api_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *NewKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NewKey) ProtoMessage() {}
+
+func (x *NewKey) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_api_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NewKey.ProtoReflect.Descriptor instead.
+func (*NewKey) Descriptor() ([]byte, []int) {
+	return file_proto_api_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *NewKey) GetKey() string {
+	if x != nil {
+		return x.Key
+	}
+	return ""
+}
+
 type Req struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -31,7 +171,7 @@ type Req struct {
 func (x *Req) Reset() {
 	*x = Req{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_api_proto_msgTypes[0]
+		mi := &file_proto_api_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -44,7 +184,7 @@ func (x *Req) String() string {
 func (*Req) ProtoMessage() {}
 
 func (x *Req) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_api_proto_msgTypes[0]
+	mi := &file_proto_api_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +197,7 @@ func (x *Req) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Req.ProtoReflect.Descriptor instead.
 func (*Req) Descriptor() ([]byte, []int) {
-	return file_proto_api_proto_rawDescGZIP(), []int{0}
+	return file_proto_api_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Req) GetFlag() uint32 {
@@ -78,7 +218,7 @@ type Resp struct {
 func (x *Resp) Reset() {
 	*x = Resp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_api_proto_msgTypes[1]
+		mi := &file_proto_api_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -91,7 +231,7 @@ func (x *Resp) String() string {
 func (*Resp) ProtoMessage() {}
 
 func (x *Resp) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_api_proto_msgTypes[1]
+	mi := &file_proto_api_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +244,7 @@ func (x *Resp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Resp.ProtoReflect.Descriptor instead.
 func (*Resp) Descriptor() ([]byte, []int) {
-	return file_proto_api_proto_rawDescGZIP(), []int{1}
+	return file_proto_api_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Resp) GetKeys() string {
@@ -118,16 +258,27 @@ var File_proto_api_proto protoreflect.FileDescriptor
 
 var file_proto_api_proto_rawDesc = []byte{
 	0x0a, 0x0f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x12, 0x03, 0x61, 0x70, 0x69, 0x22, 0x19, 0x0a, 0x03, 0x52, 0x65, 0x71, 0x12, 0x12, 0x0a,
-	0x04, 0x66, 0x6c, 0x61, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x66, 0x6c, 0x61,
-	0x67, 0x22, 0x1a, 0x0a, 0x04, 0x52, 0x65, 0x73, 0x70, 0x12, 0x12, 0x0a, 0x04, 0x6b, 0x65, 0x79,
-	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6b, 0x65, 0x79, 0x73, 0x32, 0x27, 0x0a,
-	0x03, 0x41, 0x70, 0x69, 0x12, 0x20, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x12,
-	0x08, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x71, 0x1a, 0x09, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x52, 0x65, 0x73, 0x70, 0x22, 0x00, 0x42, 0x23, 0x5a, 0x21, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x6c, 0x61, 0x70, 0x65, 0x6e, 0x6f, 0x6b, 0x2f, 0x64, 0x75,
-	0x6d, 0x62, 0x5f, 0x62, 0x61, 0x73, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x6f, 0x12, 0x03, 0x61, 0x70, 0x69, 0x22, 0x5d, 0x0a, 0x0d, 0x52, 0x65, 0x73, 0x70, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x12, 0x31, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c,
+	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x19, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65,
+	0x73, 0x70, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x2e, 0x52, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x19, 0x0a, 0x06, 0x52, 0x65,
+	0x73, 0x75, 0x6c, 0x74, 0x12, 0x06, 0x0a, 0x02, 0x4f, 0x4b, 0x10, 0x00, 0x12, 0x07, 0x0a, 0x03,
+	0x45, 0x52, 0x52, 0x10, 0x01, 0x22, 0x1a, 0x0a, 0x06, 0x4e, 0x65, 0x77, 0x4b, 0x65, 0x79, 0x12,
+	0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65,
+	0x79, 0x22, 0x19, 0x0a, 0x03, 0x52, 0x65, 0x71, 0x12, 0x12, 0x0a, 0x04, 0x66, 0x6c, 0x61, 0x67,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x66, 0x6c, 0x61, 0x67, 0x22, 0x1a, 0x0a, 0x04,
+	0x52, 0x65, 0x73, 0x70, 0x12, 0x12, 0x0a, 0x04, 0x6b, 0x65, 0x79, 0x73, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x6b, 0x65, 0x79, 0x73, 0x32, 0x54, 0x0a, 0x03, 0x41, 0x70, 0x69, 0x12,
+	0x1e, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x12, 0x08, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x52, 0x65, 0x71, 0x1a, 0x09, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x12,
+	0x2d, 0x0a, 0x0a, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x73, 0x12, 0x0b, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x4e, 0x65, 0x77, 0x4b, 0x65, 0x79, 0x1a, 0x12, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x52, 0x65, 0x73, 0x70, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x2d,
+	0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x6c, 0x61,
+	0x70, 0x65, 0x6e, 0x6f, 0x6b, 0x2f, 0x64, 0x75, 0x6d, 0x62, 0x5f, 0x62, 0x61, 0x73, 0x65, 0x2f,
+	0x67, 0x72, 0x70, 0x63, 0x5f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -142,19 +293,26 @@ func file_proto_api_proto_rawDescGZIP() []byte {
 	return file_proto_api_proto_rawDescData
 }
 
-var file_proto_api_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_proto_api_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_proto_api_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_api_proto_goTypes = []interface{}{
-	(*Req)(nil),  // 0: api.Req
-	(*Resp)(nil), // 1: api.Resp
+	(RespUpdateKey_Result)(0), // 0: api.RespUpdateKey.Result
+	(*RespUpdateKey)(nil),     // 1: api.RespUpdateKey
+	(*NewKey)(nil),            // 2: api.NewKey
+	(*Req)(nil),               // 3: api.Req
+	(*Resp)(nil),              // 4: api.Resp
 }
 var file_proto_api_proto_depIdxs = []int32{
-	0, // 0: api.Api.GetKeys:input_type -> api.Req
-	1, // 1: api.Api.GetKeys:output_type -> api.Resp
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: api.RespUpdateKey.result:type_name -> api.RespUpdateKey.Result
+	3, // 1: api.Api.GetKeys:input_type -> api.Req
+	2, // 2: api.Api.UpdateKeys:input_type -> api.NewKey
+	4, // 3: api.Api.GetKeys:output_type -> api.Resp
+	1, // 4: api.Api.UpdateKeys:output_type -> api.RespUpdateKey
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_proto_api_proto_init() }
@@ -164,7 +322,7 @@ func file_proto_api_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_proto_api_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Req); i {
+			switch v := v.(*RespUpdateKey); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -176,6 +334,30 @@ func file_proto_api_proto_init() {
 			}
 		}
 		file_proto_api_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NewKey); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_api_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Req); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_api_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Resp); i {
 			case 0:
 				return &v.state
@@ -193,13 +375,14 @@ func file_proto_api_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_api_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   2,
+			NumEnums:      1,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_proto_api_proto_goTypes,
 		DependencyIndexes: file_proto_api_proto_depIdxs,
+		EnumInfos:         file_proto_api_proto_enumTypes,
 		MessageInfos:      file_proto_api_proto_msgTypes,
 	}.Build()
 	File_proto_api_proto = out.File

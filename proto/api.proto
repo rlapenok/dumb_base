@@ -4,6 +4,20 @@ package api;
 
 option go_package="github.com/rlapenok/dumb_base/grpc_generate";
 
+
+message RespUpdateKey {
+        enum Result{
+                OK=0;
+                ERR=1;
+        }
+        Result result=1;
+}
+
+message NewKey{
+        string key=1;
+}
+
+
 message Req {
     uint32 flag=1;
 }
@@ -12,5 +26,6 @@ message Resp {
 }
 
 service Api {
-        rpc GetKeys(Req) returns (Resp) {}
+        rpc GetKeys(Req) returns (Resp); 
+        rpc UpdateKeys(NewKey)  returns (RespUpdateKey);
 }

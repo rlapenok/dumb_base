@@ -4,7 +4,7 @@
 // - protoc             v4.23.3
 // source: proto/api.proto
 
-package api
+package grpc_generate
 
 import (
 	context "context"
@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Api_GetKeys_FullMethodName = "/api.Api/GetKeys"
+	Api_GetKeys_FullMethodName    = "/api.Api/GetKeys"
+	Api_UpdateKeys_FullMethodName = "/api.Api/UpdateKeys"
 )
 
 // ApiClient is the client API for Api service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ApiClient interface {
 	GetKeys(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
+	UpdateKeys(ctx context.Context, in *NewKey, opts ...grpc.CallOption) (*RespUpdateKey, error)
 }
 
 type apiClient struct {
@@ -46,11 +48,21 @@ func (c *apiClient) GetKeys(ctx context.Context, in *Req, opts ...grpc.CallOptio
 	return out, nil
 }
 
+func (c *apiClient) UpdateKeys(ctx context.Context, in *NewKey, opts ...grpc.CallOption) (*RespUpdateKey, error) {
+	out := new(RespUpdateKey)
+	err := c.cc.Invoke(ctx, Api_UpdateKeys_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiServer is the server API for Api service.
 // All implementations must embed UnimplementedApiServer
 // for forward compatibility
 type ApiServer interface {
 	GetKeys(context.Context, *Req) (*Resp, error)
+	UpdateKeys(context.Context, *NewKey) (*RespUpdateKey, error)
 	//mustEmbedUnimplementedApiServer()
 }
 
@@ -60,6 +72,9 @@ type UnimplementedApiServer struct {
 
 func (UnimplementedApiServer) GetKeys(context.Context, *Req) (*Resp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKeys not implemented")
+}
+func (UnimplementedApiServer) UpdateKeys(context.Context, *NewKey) (*RespUpdateKey, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateKeys not implemented")
 }
 func (UnimplementedApiServer) mustEmbedUnimplementedApiServer() {}
 
@@ -92,6 +107,24 @@ func _Api_GetKeys_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Api_UpdateKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NewKey)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).UpdateKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Api_UpdateKeys_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).UpdateKeys(ctx, req.(*NewKey))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Api_ServiceDesc is the grpc.ServiceDesc for Api service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -102,6 +135,10 @@ var Api_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetKeys",
 			Handler:    _Api_GetKeys_Handler,
+		},
+		{
+			MethodName: "UpdateKeys",
+			Handler:    _Api_UpdateKeys_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

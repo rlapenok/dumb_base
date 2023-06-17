@@ -4,15 +4,12 @@ import (
 	"bufio"
 	"os"
 	"strings"
-	"sync"
 
 	"github.com/sirupsen/logrus"
 )
 
 func OpenFile() *os.File {
-	defer logrus.Info("Open keys.txt - success")
-	logrus.Info("Open keys.txt")
-	ptr, err := os.OpenFile("/home/lprm/my_project/go/github/dumb_base/keys.txt", os.O_RDWR, 0755)
+	ptr, err := os.OpenFile("/home/lprm/my_project/go/github/dumb_base/keys.txt", os.O_RDWR|os.O_APPEND, 0755)
 	if err != nil {
 		logrus.Fatal("Not found keys.txt")
 
@@ -20,9 +17,15 @@ func OpenFile() *os.File {
 	return ptr
 }
 
-func UpdateFile(ptr *os.File, key string, mutex *sync.Mutex) {
+func UpdateFile(ptr *os.File, key string) error {
 	defer ptr.Close()
-	ptr.WriteString(key + "\n")
+	defer logrus.Info("Update keys.txt - success")
+	_, err := ptr.WriteString("\n" + key)
+	if err != nil {
+		return err
+	}
+	return nil
+
 }
 
 func ReadFile(ptr *os.File) []string {
