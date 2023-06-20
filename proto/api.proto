@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api;
 
-option go_package="github.com/rlapenok/dumb_base/grpc_generate";
+option go_package="github.com/rlapenok/dumb_base/api";
 
 
 message RespUpdateKey {
