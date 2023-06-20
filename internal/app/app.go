@@ -4,8 +4,9 @@ import (
 	"net"
 	"os"
 
-	api "github.com/rlapenok/dumb_base/grpc_generate/proto"
+	api "github.com/rlapenok/dumb_base/api/proto"
 	"github.com/rlapenok/dumb_base/internal/server"
+	interceptors "github.com/rlapenok/dumb_base/internal/server/interceptors"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
@@ -24,9 +25,10 @@ func StartGrpcServer() {
 	}
 	logrus.Info("Start Dumb_base grpc server on localhost:8080")
 	my_server := server.NewMyServer()
-
-	grpc := grpc.NewServer()
-	api.RegisterApiServer(grpc, &my_server)
-	grpc.Serve(lis)
+	//Slice interceptors
+	server_option := []grpc.ServerOption{grpc.UnaryInterceptor(interceptors.ComplexUnaryInterceptor())}
+	c := grpc.NewServer(server_option...)
+	api.RegisterApiServer(c, &my_server)
+	c.Serve(lis)
 
 }
