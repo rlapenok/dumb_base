@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	api "github.com/rlapenok/dumb_base/grpc_generate/proto"
+	api "github.com/rlapenok/dumb_base/api/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
